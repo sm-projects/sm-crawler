@@ -6,11 +6,11 @@ A distributed web crawler in Java
 
 There’s three main stages to the online crawler. The first stage is the fetcher, to pull in data, second is the parser, which pulls important information out of the data, and last is the indexer, which inserts the data into a database or possibly multiple databases. Offline there is an analysis server and a UI for end-users to pull, inspect, and report on data gathered by the crawler.
 
-The input to each stage is an SQS queue. The queues hold messages with metadata about each page as it flows through the system. S3 acts as intermediate blob storage for webpages or other files that don’t fit into the 256k limit of SQS. Dynamo is the current index, however any key-value store could be plugged in, such as Cassandra, or even an RDBMS like MySQL or Aurora. The different stages are described in more detail below.
+The input to each stage is an SQS queue. The queues hold messages with metadata about each page as it flows through the system. [RavenDB]() acts as intermediate document store for webpages or any other downloaded files. [Elastic Search](https://www.elastic.co/) is used to create indexes and enable seraching on the contents. The different stages are described in more detail below.
 
 #### Fetch
 
-Fetching is a pretty straightforward part of the system. It will reach out to the origin web server and retireve whatever web resource needed. It then uploads the resource itself to S3 and then sends the metadata about the resource to the parsing stage. The concept is straightforward, however the implementation is more complex than it seems at first. How does it handle failures? What about rate limiting? Sitemaps? The robots.txt standard-but-not-a-standard? These considerations all need to be built in.
+Fetching is a pretty straightforward part of the system. It will reach out to the origin web server and retireve whatever web resource needed. It then uploads the resource itself to Doc Store and then sends the metadata about the resource to the parsing stage. The concept is straightforward, however the implementation is more complex than it seems at first. How does it handle failures? What about rate limiting? Sitemaps? The robots.txt standard-but-not-a-standard? These considerations all need to be built in.
 
 #### Parse
 
