@@ -24,6 +24,16 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by smdeveloper on 5/23/17.
+ *
+ * Mock out the smCrawler's executor service.
+ * Create a test class and use injectMocks in order to inject smCrawler class
+ * Create a mock GrabPage object and fetch from example.com
+ * Create mock future objects since SmCrawler uses futures.
+ * Finally validate the results
+ *
+ * @TBD Look more into Mockito Library to learn about more sophisticated usage for create mock services
+ * for future tests.
+ *
  */
 
 public class TestSmCrawler {
@@ -69,4 +79,5 @@ public class TestSmCrawler {
         assertTrue(visited.contains(new URL("http://example.com/without#anchor")));
         assertTrue(visited.contains(new URL("http://example.com/nopdfs.pdf")));
     }
+
 }
